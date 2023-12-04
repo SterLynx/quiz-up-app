@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const UserLogin = () => {
+const UserLogin: React.FC = () => {
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
 
-  const handleChange = (e, field) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     setLoginData({
       ...loginData,
       [field]: e.target.value,
@@ -30,9 +30,14 @@ const UserLogin = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    console.log('Successfully logged out')
+  };
+
   return (
     <div>
-      <h1>User Login</h1>
+      <h1>Log In</h1>
       <input
         type="email"
         placeholder="Email"
@@ -46,6 +51,7 @@ const UserLogin = () => {
         onChange={(e) => handleChange(e, 'password')}
       />
       <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import axios from 'axios';
 interface Question {
   id: string;
   text: string;
-
 }
 
 const QuestionsView: React.FC = () => {
@@ -13,8 +12,19 @@ const QuestionsView: React.FC = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('https://cae-bookstore.herokuapp.com/question/all');
-        setQuestions(response.data); 
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await axios.get('https://cae-bookstore.herokuapp.com/question/all', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            
+          });
+          console.log('Token accepted');
+          setQuestions(response.data);
+        } else {
+          console.error('Token denied. User not logged in.');
+        }
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -30,7 +40,6 @@ const QuestionsView: React.FC = () => {
         {Array.isArray(questions) ? (
           questions.map((question) => (
             <li key={question.id}>{question.text}</li>
-           
           ))
         ) : (
           <p>You must be logged in to view questions</p>
