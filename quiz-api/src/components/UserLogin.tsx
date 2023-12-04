@@ -28,11 +28,11 @@ const UserLogin: React.FC = () => {
     } catch (error) {
       console.error('Login failed:', error);
     }
-  };
+  }; //Keep the logging and error handling
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    console.log('Successfully logged out')
+    console.log('Successfully logged out') //Token seems to be working
   };
 
   return (
